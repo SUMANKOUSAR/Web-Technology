@@ -1,64 +1,69 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Electives</title>
-</head>
-
-<body>
-<center>
-<div>
-<form action="index.php" method="GET">
-USN: <input type="text" name="uname"/><br><br>
-Password:<input type="password" name="pwd"/><br><br>
-<input type="submit" value="Login" name="submit"/>
-</form>
-</div>
-</center>
-</body>
-
-</html>
-
-<?php
-error_reporting(0);
-$uname=$_GET["uname"];
-$pass=$_GET["pwd"];
-
-$res=mysqli_connect('localhost','root','','electives');
-
-$query="SELECT `usn`,`pass` FROM `registration`";
-$cnt=0;
-
-if($query_run=mysqli_query($res,$query)){
-
-    while($query_row=mysqli_fetch_assoc($query_run)){
-       $username=$query_row['usn'];
-       $password=$query_row['pass'];
-       
-
-       
-           if($pass==$password){
-
-
-               if($uname==$username){
-                   header('Location: SubSelect.php');
+  <title>Experiment-1</title>
+  <style type="text/css">
+      table, td, th{
+          border: 2px solid;
+          text-align: center;
+          background-color: rgb(162, 193, 205);
+          margin: auto;
+      }
+      input{
+          text-align: center;
+      }
+  </style>
+  <script type="text/javascript">
+      function calc(clicked_id)
+      {
+          var v1=parseFloat(document.getElementById("value1").value);
+          var v2=parseFloat(document.getElementById("value2").value);
+          if(isNaN(v1)||isNaN(v2))
+             alert("please enter a valid number");
+          else if(clicked_id=="add")
+            document.getElementById("answer").value=v1+v2;
+          else if(clicked_id=="sub")
+            document.getElementById("answer").value=v1-v2;
+            else if(clicked_id=="mul")
+            document.getElementById("answer").value=v1*v2;
+            else if(clicked_id=="div")
+            {
+                if(v2==0)
+                {
+                    alert("please enter a nonzero denominator");
+                    location.reload();
                 }
-               else{
-                   echo "Invalid Username";
-               }
-               
-               
+                else
+                  document.getElementById("answer").value=v1/v2;
 
-           }
-           else{
-               $cnt++;
-           }
-        }
-        if($cnt!=0){
-            echo "<br>Invalid Password.";
-        }
+            }
 
+      }
+  </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <th colspan="4">Simple Calculator</th>
+        </tr>
+        <tr>
+            <td>Enter Operand-1</td>
+            <td> <input type="text" id="value1" value="0"/></td>
+            <td>Enter Operand-2</td>
+            <td><input type="text" id="value2" value="0"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="Addition" id="add" onclick="calc(this.id)"/></td>
+            <td><input type="button" value="Substraction" id="sub" onclick="calc(this.id)"/></td>
+            <td><input type="button" value="Multiplication" id="mul" onclick="calc(this.id)"/></td>
+            <td colspan="2"><input type="button" value="Division" id="div" onclick="calc(this.id)"/></td>
+        </tr>
+        <tr>
+            <td>Result: </td>
+            <td> <input type="text" id="answer" value="" disabled/> </td>
+            <td> <input type="button"  value="Clear All" id="clear" onclick="clear(this.id)"/> </td>
 
-    }else{
-        echo '<br>Unable to fetch data';
-    }
-
-?>
+        </tr>
+    </table>
+</body>
+</html>
